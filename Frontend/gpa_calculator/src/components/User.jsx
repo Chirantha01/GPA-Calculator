@@ -3,53 +3,13 @@ import user_photo from '../images/user.webp'
 import { useState } from 'react'
 import Header from './Header';
 import SideBar from './SideBar';
-import Progress from './Progress';
+import Progresscheck from './Progresscheck';
 import Graphs from './Graphs';
 import { useUserData } from './UserData';
 
 function User() {
 
-  const [userData , setUserData] = useState( {
-    name : "Chirantha",
-    current_GPA : 3.59,
-    semester_GPAs : [
-      {name : "Semester 1" , value :3.61},
-      {name : "Semester 2" , value :3.41},
-      {name : "Semester 3" , value :3.7},
-      {name : "Semester 4" , value :3.79},
-      {name : "Semester 5" , value :3.88},
-      {name : "Semester 6" , value :3.9},
-      {name : "Semester 7" , value :3.95},
-      {name : "Semester 8" , value :4.0},
-    ]
-  });
-
-  const {users , setUsers} = useUserData();
-
-  const [semesterData , setSemesterData] = useState({name:"" , value : ""});
-
-  const handleInputChange = (event)=> {
-    const {name , value} = event.target;
-    setSemesterData({
-      ...semesterData,
-      [name] : value,
-    });
-  }
-
-  const handleSubmit = (event)=>{
-    event.preventDefault();
-    const newSemsterGPA = {
-      name : semesterData.name,
-      value : parseFloat(semesterData.value),
-    }
-
-    setUserData((prevState) => ({
-      ...prevState,
-      semester_GPAs : [...prevState.semester_GPAs , newSemsterGPA],
-    }));
-
-    setSemesterData({name:"" , value: ""});
-  }
+  const {users , setUsers , addSemester} = useUserData();
 
   const [displayStatus , setDisplayStaus] = useState(true);
 
@@ -71,7 +31,8 @@ function User() {
           handleGraphClick={handleGraphClick}/></div>
         <div className='flex-1'>
           {
-            displayStatus ? (<Progress user={users}/>) : (<Graphs user={users}/>)
+            //displayStatus ? (<Progress user={users} addSemesterGPA={addSemesterGPA}/>) : (<Graphs user={users}/>)
+            <Progresscheck user={users} addSemester={addSemester}/>
           } 
         </div>
       </div>

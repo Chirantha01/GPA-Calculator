@@ -1,27 +1,22 @@
 import React from 'react'
 import { useState } from 'react'
+import axios from "axios";
 
-function SemesterForm(props) {
-    //const {SemesterAdded} = props;
-    const [semesterData , setSemesterData] = useState({name:"" , value : ""});
+function Test(props) {
+    const {SemesterAdded} = props;
+    const [semesterData , setSemesterData] = useState("");
 
     const handleInputChange = (event)=> {
-        const {name , value} = event.target;
-        setSemesterData((prev) => {
-            return{...prev , [name] : value};
-        });
-        console.log("handleInputChange WORKED");
+        //console.log(event.target.value);
+        setSemesterData(event.target.value);
+        //console.log(semesterData);
     }
 
-    const handleSubmit = (event)=>{
+    const handleSubmit = async (event)=>{
         event.preventDefault();
-        const newSemesterGPA = {
-        name : semesterData.name,
-        value : parseFloat(semesterData.value),
-        }    
-        props.addSemesterGPA(newSemesterGPA);
-        
-        setSemesterData({name:"" , value: ""});
+        const response = await axios.post("http://localhost:4000/" , {name:semesterData});
+        console.log(response.data);
+        props.addSemester(response.data);
         console.log("handleSubmit WORKED");
     }
 
@@ -40,31 +35,7 @@ function SemesterForm(props) {
                     type="text"
                     id="name"
                     name='name'
-                    value={semesterData.name}
-                    onChange={handleInputChange}
-                />
-                </div>
-
-                <div>
-                    <div className='grid grid-cols-3'>
-                        <h1>Module Name</h1>
-                        <h1>Credits</h1>
-                        <h1>Grade</h1>
-                    </div>
-                </div>
-
-                <div>
-                <label className="sr-only" htmlFor="value">value</label>
-                <input
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                    placeholder="Semester GPA"
-                    type="number"
-                    step="0.01"
-                    min="0.00"
-                    max="4.00"
-                    id="value"
-                    name='value'
-                    value={semesterData.value}
+                    value={semesterData}
                     onChange={handleInputChange}
                 />
                 </div>
@@ -80,7 +51,7 @@ function SemesterForm(props) {
                 <button
                 type="button"
                 className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
-                onClick={props.SemesterAdded}
+                onClick={SemesterAdded}
                 >
                 Cancel
                 </button>    
@@ -91,4 +62,4 @@ function SemesterForm(props) {
   )
 }
 
-export default SemesterForm;
+export default Test;

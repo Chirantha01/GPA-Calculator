@@ -3,11 +3,14 @@ import user_photo from '../images/user.webp'
 import { useState } from 'react'
 import SemesterForm from './SemesterForm';
 import Test from './Test';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 function Progress(props) {
 
   const [addSem , setAddSem] = useState(false);
   //const {addSemester}= props;
+  const percentage = props.user.current_GPA*25;
 
   const handleAddSemesterClick = ()=> {
     setAddSem(true);
@@ -21,7 +24,7 @@ function Progress(props) {
   return (
     <div className='flex flex-row justify-center items-center'> 
       
-      <div className='flex flex-col'>
+      <div className='flex flex-col mx-auto'>
         <div className='text-2xl mt-6 mb-3'>
           <h2 className=''>Semester GPAs</h2>
         </div>
@@ -40,17 +43,19 @@ function Progress(props) {
                 <h2>Grade</h2>
                 <h2></h2>
               </div>
-              {semester.modules.map((module,index2)=>(
-                <div className=' grid grid-cols-5 place-items-center gap-3 text-xl text-center py-2' key={index2}>
-                  <h2 className='col-span-2'>{module.name}</h2>
-                  <h2>{module.credit}</h2>
-                  <h2>{module.grade}</h2>
-                  <div className='flex'>
-                    <button className=' text-green-600 bg-green-200 p-1'>Edit</button>
-                    <button className=' text-red-600 bg-red-300 p-1'>Remove</button>
-                  </div>
-                </div>
-              ))}
+              <div>
+                {semester.modules.map((module , index2) => (
+                    <div className=' grid grid-cols-5 place-items-center gap-3 text-xl text-center py-2' key={index2}>
+                        <h2 className='col-span-2'>{module.name}</h2>
+                        <h2>{module.credit}</h2>
+                        <h2>{module.grade}</h2>
+                        <div className='flex'>
+                            <button className=' text-green-600 bg-green-200 p-1'>Edit</button>
+                            <button className=' text-red-600 bg-red-200 p-1'>Remove</button>
+                        </div>
+                    </div>
+                ))}
+              </div>
             </div>
             <div className='grid grid-cols-5 place-items-center mt-3'>
               <div className=' col-span-4 text-xl text-white bg-blue-400 rounded-xl p-3'><button onClick={handleAddSemesterClick}>Add Module</button></div>
@@ -75,13 +80,13 @@ function Progress(props) {
       )}
       </div>
 
-      <div className='mt-36 grid grid-rows-3 place-items-center gap-2'>
+      <div className='my-auto max-h-full grid grid-rows-3 place-items-center gap-2 mx-auto'>
         <div className='mr-6 text-2xl'>
           <h2>Current GPA </h2>
         </div>
-        
-        <div className='ml-4 text-1xl'>
-          <h4>{props.user.current_GPA}/4.0 </h4>
+        <div style={{ width: 200, height: 200 }}>
+            
+            <CircularProgressbar value={percentage} text={`${props.user.current_GPA}`} />
         </div>
       </div>
 

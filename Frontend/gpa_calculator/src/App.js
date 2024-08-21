@@ -1,11 +1,10 @@
 import './App.css';
-import Calculator from './components/Calculator';
-import Header from './components/Header';
-import Progress from './components/Progress';
-import SemesterForm from './components/SemesterForm';
-import SideBar from './components/SideBar';
-import Subject from './components/Subject';
+import { useState } from 'react';
 import User from './components/User';
+import Test from './components/Test';
+import SideBar from './components/SideBar';
+import { useUserData } from './components/UserData';
+import Progresscheck from './components/Progresscheck';
 
 function App() {
   return (
